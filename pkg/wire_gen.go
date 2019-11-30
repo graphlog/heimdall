@@ -7,6 +7,7 @@ package root
 
 import (
 	"github.com/google/wire"
+	"github.com/graphlog/heimdall/pkg/config"
 	"github.com/graphlog/heimdall/pkg/handlers"
 	"github.com/graphlog/heimdall/pkg/server"
 )
@@ -14,8 +15,9 @@ import (
 // Injectors from app.go:
 
 func InitializeApp() (*server.AppServer, error) {
+	configConfig := config.NewConfig()
 	requestHandler := handlers.NewRouter()
-	appServer := server.CreateServer(requestHandler)
+	appServer := server.CreateServer(configConfig, requestHandler)
 	return appServer, nil
 }
 
