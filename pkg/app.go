@@ -7,10 +7,11 @@ import (
 	"github.com/google/wire"
 	"github.com/graphlog/heimdall/pkg/handlers"
 	"github.com/graphlog/heimdall/pkg/server"
+	"github.com/graphlog/heimdall/pkg/services"
 )
 
 // AppSet -
-var AppSet = wire.NewSet(handlers.RouterSet, server.ServerSet)
+var AppSet = wire.NewSet(services.ServiceSet, handlers.RouterSet, server.ServerSet)
 
 // InitializeApp -
 func InitializeApp() (*server.AppServer, error) {

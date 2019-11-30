@@ -10,6 +10,7 @@ import (
 	"github.com/graphlog/heimdall/pkg/config"
 	"github.com/graphlog/heimdall/pkg/handlers"
 	"github.com/graphlog/heimdall/pkg/server"
+	"github.com/graphlog/heimdall/pkg/services"
 )
 
 // Injectors from app.go:
@@ -24,4 +25,4 @@ func InitializeApp() (*server.AppServer, error) {
 // app.go:
 
 // AppSet -
-var AppSet = wire.NewSet(handlers.RouterSet, server.ServerSet)
+var AppSet = wire.NewSet(services.ServiceSet, handlers.RouterSet, server.ServerSet)
