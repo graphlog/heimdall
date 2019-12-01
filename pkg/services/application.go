@@ -32,6 +32,7 @@ func (a *ApplicationService) Validate(auth *models.AuthorizationKeys) bool {
 
 	if err := a.DB.Select(&app, sql, args...); err != nil {
 		logrus.Error(err)
+		return false
 	}
 
 	if len(app) == 1 {
