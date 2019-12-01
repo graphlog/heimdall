@@ -10,6 +10,8 @@ type ErrorType string
 
 const (
 	MethodNotAllowed string = "method_not_allowed"
+	InvalidRequest   string = "invalid_request"
+	UnAuthorized     string = "not_authorized"
 )
 
 type errorHelper struct {

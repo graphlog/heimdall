@@ -4,7 +4,7 @@ vendor:
 	go get github.com/google/wire/cmd/wire
 	go mod vendor
 
-start:
+start: wire
 	go run cmd/main.go
 
 generate: wire
@@ -27,6 +27,9 @@ cleanup:
 	rm -rf ./vendor
 
 setup: vendor generate
+
+migrate:
+	cd db && migrate @ 
 
 default:
 	setup

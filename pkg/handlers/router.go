@@ -2,33 +2,37 @@ package handlers
 
 import (
 	"github.com/google/wire"
+	"github.com/graphlog/heimdall/pkg/services"
 	"github.com/valyala/fasthttp"
+	"net/http"
 )
 
 var RouterSet = wire.NewSet(NewRouter)
 
 type AppRequestHandler func(ctx *fasthttp.RequestCtx)
 
-func statusHandler(ctx *fasthttp.RequestCtx) {
-	// notice that we may access MyHandler properties here - see h.foobar.
-	RespondWithJSON(ctx, 200, "OK")
-}
-
-func NewRouter() fasthttp.RequestHandler {
+func NewRouter(as *services.ApplicationService) fasthttp.RequestHandler {
 	requestHandler := func(ctx *fasthttp.RequestCtx) {
 		method := string(ctx.Method())
 		switch string(ctx.Path()) {
 		case "/status":
 			if method == "GET" {
-				statusHandler(ctx)
+				StatusHandler(ctx)
 			} else {
 				RespondWithError(ctx, 405, MethodNotAllowed, "")
 			}
 		case "/log":
 			if method == "POST" {
+				isValid := ValidateAPIKey(ctx, as)
 
+				if !isValid {
+					RespondWithError(ctx, http.StatusUnauthorized, UnAuthorized, "unauthorized request")
+					return
+				}
+
+				// valid and send logs
 			} else {
-				RespondWithError(ctx, 405, MethodNotAllowed, "")
+				RespondWithError(ctx, http.StatusMethodNotAllowed, MethodNotAllowed, "")
 			}
 		default:
 			ctx.Error("Unsupported path", fasthttp.StatusNotFound)

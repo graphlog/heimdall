@@ -17,7 +17,9 @@ import (
 
 func InitializeApp() (*server.AppServer, error) {
 	configConfig := config.NewConfig()
-	requestHandler := handlers.NewRouter()
+	db := services.NewDBConnection()
+	applicationService := services.NewApplicationService(db)
+	requestHandler := handlers.NewRouter(applicationService)
 	appServer := server.CreateServer(configConfig, requestHandler)
 	return appServer, nil
 }

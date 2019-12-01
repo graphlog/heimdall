@@ -2,4 +2,4 @@ package services
 
 import "github.com/google/wire"
 
-var ServiceSet = wire.NewSet(NewDBConnection)
+var ServiceSet = wire.NewSet(NewApplicationService, NewDBConnection)
