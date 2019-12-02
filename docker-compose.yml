@@ -15,3 +15,9 @@ services:
   client:
     image: yandex/clickhouse-client
     command: ["--host", "server"]
+  rabbitmq:
+    image: rabbitmq:3.8.1-management
+    container_name: graphlog_que
+    ports:
+      - 5672:5672
+      - 15672:15672
