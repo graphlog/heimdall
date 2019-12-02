@@ -4,11 +4,12 @@ import (
 	"log"
 
 	_ "github.com/ClickHouse/clickhouse-go"
+	"github.com/graphlog/heimdall/pkg/config"
 	"github.com/jmoiron/sqlx"
 )
 
-func NewDBConnection() *sqlx.DB {
-	connect, err := sqlx.Open("clickhouse", "tcp://127.0.0.1:9000?debug=true")
+func NewDBConnection(c *config.Config) *sqlx.DB {
+	connect, err := sqlx.Open("clickhouse", c.DataStores.ClickHouseURI)
 
 	if err != nil {
 		log.Fatal(err)
