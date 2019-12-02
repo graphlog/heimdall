@@ -17,9 +17,11 @@ import (
 
 func InitializeApp() (*server.AppServer, error) {
 	configConfig := config.NewConfig()
-	db := services.NewDBConnection()
+	db := services.NewDBConnection(configConfig)
 	applicationService := services.NewApplicationService(db)
-	requestHandler := handlers.NewRouter(applicationService)
+	connection := services.NewAMQPConnection(configConfig)
+	messageService := services.NewMessageService(connection)
+	requestHandler := handlers.NewRouter(applicationService, messageService)
 	appServer := server.CreateServer(configConfig, requestHandler)
 	return appServer, nil
 }
