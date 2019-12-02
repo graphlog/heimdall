@@ -20,7 +20,7 @@ func InitializeApp() (*server.AppServer, error) {
 	db := services.NewDBConnection(configConfig)
 	applicationService := services.NewApplicationService(db)
 	connection := services.NewAMQPConnection(configConfig)
-	messageService := services.NewMessageService(connection)
+	messageService := services.NewMessageService(configConfig, connection)
 	requestHandler := handlers.NewRouter(applicationService, messageService)
 	appServer := server.CreateServer(configConfig, requestHandler)
 	return appServer, nil

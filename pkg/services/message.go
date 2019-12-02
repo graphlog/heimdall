@@ -2,17 +2,21 @@ package services
 
 import (
 	"encoding/json"
+
+	"github.com/graphlog/heimdall/pkg/config"
 	"github.com/graphlog/heimdall/pkg/models"
 	"github.com/streadway/amqp"
 )
 
 type MessageService struct {
 	Connection *amqp.Connection
+	QueueName  string
 }
 
-func NewMessageService(c *amqp.Connection) *MessageService {
+func NewMessageService(conf *config.Config, c *amqp.Connection) *MessageService {
 	return &MessageService{
 		Connection: c,
+		QueueName:  conf.DataStores.AMQPConfig.QueueName,
 	}
 }
 
@@ -31,7 +35,7 @@ func (m *MessageService) SendLogs(log *models.Log) error {
 		return err
 	}
 
-	err = channel.Publish("", "graphlog_logger", false, false, amqp.Publishing{
+	err = channel.Publish("", m.QueueName, false, false, amqp.Publishing{
 		DeliveryMode: amqp.Persistent,
 		ContentType:  "application/json",
 		Body:         bJson,

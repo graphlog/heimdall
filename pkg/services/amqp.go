@@ -7,7 +7,7 @@ import (
 )
 
 func NewAMQPConnection(c *config.Config) *amqp.Connection {
-	connection, err := amqp.Dial(c.DataStores.AMQPURI)
+	connection, err := amqp.Dial(c.DataStores.AMQPConfig.URI)
 
 	if err != nil {
 		logrus.Panic("Cannot connect to RabbitMQ")

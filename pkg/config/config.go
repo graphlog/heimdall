@@ -11,8 +11,13 @@ type Config struct {
 	DataStores *DS
 }
 
+type AMQPConfig struct {
+	URI       string
+	QueueName string
+}
+
 type DS struct {
-	AMQPURI       string
+	AMQPConfig    *AMQPConfig
 	ClickHouseURI string
 }
 
@@ -22,7 +27,10 @@ func NewConfig() *Config {
 			Port: envOrDefault("PORT", "7000"),
 		},
 		DataStores: &DS{
-			AMQPURI:       envOrDefault("AMQP_URI", "amqp://localhost:5672"),
+			AMQPConfig: &AMQPConfig{
+				URI:       envOrDefault("AMQP_URI", "amqp://localhost:5672"),
+				QueueName: envOrDefault("GRAPHLOG_QUEUE_NAME", "graphlog_logger"),
+			},
 			ClickHouseURI: envOrDefault("CLICKHOUSE_URI", "tcp://127.0.0.1:9000?debug=true"),
 		},
 	}
