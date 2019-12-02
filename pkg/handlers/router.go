@@ -11,7 +11,7 @@ var RouterSet = wire.NewSet(NewRouter)
 
 type AppRequestHandler func(ctx *fasthttp.RequestCtx)
 
-func NewRouter(as *services.ApplicationService) fasthttp.RequestHandler {
+func NewRouter(as *services.ApplicationService, ms *services.MessageService) fasthttp.RequestHandler {
 	requestHandler := func(ctx *fasthttp.RequestCtx) {
 		method := string(ctx.Method())
 		switch string(ctx.Path()) {
@@ -30,7 +30,7 @@ func NewRouter(as *services.ApplicationService) fasthttp.RequestHandler {
 					return
 				}
 
-				// valid and send logs
+				SendLogToPlatform(ctx, ms)
 			} else {
 				RespondWithError(ctx, http.StatusMethodNotAllowed, MethodNotAllowed, "")
 			}
