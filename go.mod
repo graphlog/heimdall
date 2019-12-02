@@ -10,6 +10,7 @@ require (
 	github.com/google/wire v0.3.0
 	github.com/jmoiron/sqlx v1.2.0
 	github.com/sirupsen/logrus v1.4.2
+	github.com/streadway/amqp v0.0.0-20190827072141-edfb9018d271
 	github.com/valyala/fasthttp v1.6.0
 	golang.org/x/crypto v0.0.0-20190426145343-a29dc8fdc734
 	google.golang.org/appengine v1.6.5 // indirect
